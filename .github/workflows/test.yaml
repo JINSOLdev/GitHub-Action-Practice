@@ -1,0 +1,31 @@
+name: TEST
+
+on:
+  push:
+    branches:
+      - main # main branch에 push할 때 실행
+  pull_request:
+    branches:
+      - main # main branch로 합쳐지는 pull request가 생성/업데이트 될 때 실행
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # ubuntu-latest 환경에서 실행
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*" # 혹은 개발할 때 사용한 버전
+
+      - name: Install dependencies
+        run: npm install # or npm run ci
+
+      - name: Run typecheck
+        run: npm run typecheck
+
+      - name: Run tests
+        run: npm run test
